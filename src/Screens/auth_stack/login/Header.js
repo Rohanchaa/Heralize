@@ -12,6 +12,7 @@ const Header = () => {
         <Text style={Styles.subHeading}>
           Please fill in your email password to login to your account.
         </Text>
+        <Text> helo testing</Text>
       </View>
     </View>
   );

@@ -15,18 +15,18 @@ const Splashone = ({navigation}) => {
         style={Styles.image}
         source={require('../../../images/Mehenat4.png')}
       />
-      <Text style={Styles.text}>
-        Discover People with the same Interests for your Herald Journey
-      </Text>
-      <Text style={Styles.subtext}>
-        Connect, Explore, Unite, Thrive Together.
-      </Text>
-      <View style={Styles.botton}>
-        <Text style={Styles.buttonText}>Get Started</Text>
-        <View style={Styles.buttoncontainermain}>
-          <TouchableOpacity style={Styles.buttonContainer} onPress={btnactin}>
+      <View style={Styles.textContainer}>
+        <Text style={Styles.text}>
+          Discover People with the same Interests for your Herald Journey
+        </Text>
+        <Text style={Styles.subtext}>
+          Connect, Explore, Unite, Thrive Together.
+        </Text>
+        <View style={Styles.buttoncontainer}>
+          <Text style={Styles.buttonText}>Get Started</Text>
+          <TouchableOpacity onPress={btnactin}>
             <View style={Styles.button}>
-              <Icon name="arrow-forward" size={24} color="#74C042" />
+              <Icon name="right-circle" size={24} color="white" />
             </View>
           </TouchableOpacity>
         </View>
@@ -39,47 +39,45 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 50,
+  },
+  textContainer: {
+    marginTop: 10,
+    alignItems: 'center',
   },
   text: {
     textAlign: 'center',
     fontWeight: 'bold',
     alignItems: 'center',
-    padding: 50,
     color: '#74C042',
+    marginTop: 40,
     fontSize: 20,
+    marginBottom: 10,
   },
   image: {},
   subtext: {
+    marginTop: 10,
     textAlign: 'center',
     fontSize: 15,
+    marginBottom: 10,
   },
-  botton: {
-    backgroundColor: '#74C042',
-    width: ' 90%',
-    margin: 50,
-    padding: 5,
-    borderRadius: 30,
+  buttoncontainer: {
+    marginTop: 10,
+    backgroundColor: 'green',
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'space-evenly',
+    padding: 10,
+    borderRadius: 50,
+    width: '80%',
+    paddingVertical: 10,
   },
   buttonText: {
+    color: 'white',
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  buttonContainer: {
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end',
   },
   button: {
-    padding: 10,
-    borderRadius: 25,
-    backgroundColor: 'white',
-  },
-  buttoncontainermain: {
-    backgroundColor: 'red',
+    alignSelf: 'flex-end',
   },
 });
 

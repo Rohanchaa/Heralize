@@ -41,7 +41,7 @@ const Input = ({navigation}) => {
         onChangeText={setEmail}
         value={email}
       />
-      <Text>Password</Text>
+      <Text style={styles.password}>Password</Text>
       <TextInput
         placeholder="Password"
         style={styles.inputPassword}
@@ -61,6 +61,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 3,
     padding: 20,
+  },
+  password: {
+    marginTop: 10,
   },
   inputEmail: {
     marginTop: 10,

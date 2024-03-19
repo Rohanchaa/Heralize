@@ -26,7 +26,7 @@ const Splashone = ({navigation}) => {
           <Text style={Styles.buttonText}>Get Started</Text>
           <TouchableOpacity onPress={btnactin}>
             <View style={Styles.button}>
-              <Icon name="right-circle" size={24} color="white" />
+              <Icon name="add-card" size={24} color="red" />
             </View>
           </TouchableOpacity>
         </View>

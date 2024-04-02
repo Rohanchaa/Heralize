@@ -2,12 +2,12 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import Post from '../../../components/post';
 
-const Homescreen = () => {
+const EditProfile = () => {
   return (
     <View>
-      <Post />
+      <Text>Hello</Text>
     </View>
   );
 };
 
-export default Homescreen;
+export default EditProfile;

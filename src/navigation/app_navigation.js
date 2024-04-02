@@ -7,8 +7,8 @@ const {Navigator, Screen} = createNativeStackNavigator();
 const AppNavigation = () => {
   return (
     <Navigator screenOptions={{headerShown: false}}>
-      <Screen name="RootStack" component={RootStack} />
       <Screen name="AuthStack" component={AuthStack} />
+      <Screen name="RootStack" component={RootStack} />
     </Navigator>
   );
 };

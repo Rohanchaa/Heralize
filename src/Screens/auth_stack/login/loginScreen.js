@@ -8,7 +8,7 @@ import {
   Button,
   Image,
 } from 'react-native';
-
+import RootStack from '../../../navigation/rootstack';
 const themeColor = '#74C042';
 
 const Header = () => {
@@ -34,7 +34,7 @@ const LoginScreen = ({navigation}) => {
 
   const handleLogin = async () => {
     console.log('Attempting to login...');
-    navigation.navigate('Homescreen');
+    navigation.navigate(RootStack);
   };
 
   return (

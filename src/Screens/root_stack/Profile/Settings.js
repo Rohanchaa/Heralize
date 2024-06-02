@@ -9,10 +9,20 @@ import {
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../../../store/slices/auth.slice';
 
 export default function Settings({navigation}) {
   const EditAccount = () => {
     navigation.navigate('EditProfile');
+  };
+
+  const {user} = useSelector(state => state.auth);
+  console.log(user);
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -32,19 +42,16 @@ export default function Settings({navigation}) {
             style={styles.image}
           />
           <View style={{marginLeft: 20}}>
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-              Rohan Shrestha
-            </Text>
-            <TouchableOpacity onPress={EditAccount}>
-              <Text style={{color: 'blue', marginTop: 5}}>Edit Account</Text>
-            </TouchableOpacity>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>{user?.name}</Text>
           </View>
         </View>
       </View>
 
       {/* Options */}
       <View style={styles.optionContainer}>
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          style={styles.options}
+          onPress={() => navigation.navigate('UpdatePasswordScreen')}>
           <View style={styles.containerFlex}>
             <View
               style={[styles.optionContainer1, {backgroundColor: '#74C042'}]}>
@@ -56,6 +63,63 @@ export default function Settings({navigation}) {
               />
             </View>
             <Text style={styles.optionImage}>Change Password</Text>
+          </View>
+          <Icon style={styles.nextbutton} name="navigate-next" size={30} />
+        </TouchableOpacity>
+      </View>
+      {user.type === 'admin' ? (
+        <View style={styles.optionContainer}>
+          <TouchableOpacity
+            style={styles.options}
+            onPress={() => navigation.navigate('CommunityRequested')}>
+            <View style={styles.containerFlex}>
+              <View
+                style={[styles.optionContainer1, {backgroundColor: '#74C042'}]}>
+                <Icon
+                  style={styles.nextbutton}
+                  name="add"
+                  size={25}
+                  color={'white'}
+                />
+              </View>
+              <Text style={styles.optionImage}>Requested Community</Text>
+            </View>
+            <Icon style={styles.nextbutton} name="navigate-next" size={30} />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.optionContainer}>
+          <TouchableOpacity
+            style={styles.options}
+            onPress={() => navigation.navigate('AddCommunityRequest')}>
+            <View style={styles.containerFlex}>
+              <View
+                style={[styles.optionContainer1, {backgroundColor: '#74C042'}]}>
+                <Icon
+                  style={styles.nextbutton}
+                  name="add"
+                  size={25}
+                  color={'white'}
+                />
+              </View>
+              <Text style={styles.optionImage}>Community Add Request</Text>
+            </View>
+            <Icon style={styles.nextbutton} name="navigate-next" size={30} />
+          </TouchableOpacity>
+        </View>
+      )}
+      <View style={styles.optionContainer}>
+        <TouchableOpacity style={styles.options} onPress={onLogout}>
+          <View style={styles.containerFlex}>
+            <View style={[styles.optionContainer1, {backgroundColor: 'red'}]}>
+              <Icon
+                style={styles.nextbutton}
+                name="lock-outline"
+                size={25}
+                color={'white'}
+              />
+            </View>
+            <Text style={styles.optionImage}>Logout</Text>
           </View>
           <Icon style={styles.nextbutton} name="navigate-next" size={30} />
         </TouchableOpacity>
@@ -97,7 +161,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   optionContainer: {
-    marginTop: 30,
+    marginTop: 10,
     marginHorizontal: 15,
   },
   nextbutton: {},

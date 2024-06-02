@@ -1,14 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
-  Text,
-  StyleSheet,
-  View,
-  TextInput,
+  Alert,
+  BackHandler,
   Button,
   Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
-import RootStack from '../../../navigation/rootstack';
+import {useDispatch} from 'react-redux';
+import {login} from '../../../services/auth_service';
+import {
+  storeToken,
+  storeType,
+  storeUser,
+} from '../../../store/slices/auth.slice';
 const themeColor = '#74C042';
 
 const Header = () => {
@@ -18,7 +27,7 @@ const Header = () => {
         style={styles.image}
         source={require('../../../images/upperimage.png')}
       />
-      <View style={styles.container}>
+      <View style={[styles.container, {padding: 10}]}>
         <Text style={styles.headingText}>Welcome</Text>
         <Text style={styles.subHeading}>
           Please fill in your email and password to login to your account.
@@ -31,11 +40,56 @@ const Header = () => {
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
-    console.log('Attempting to login...');
-    navigation.navigate(RootStack);
+    try {
+      setLoading(true);
+
+      const res = await login({email, password});
+
+      setLoading(false);
+
+      const {success, token, data} = res.data;
+
+      if (success) {
+        dispatch(storeUser(data));
+        dispatch(storeToken(token));
+        dispatch(storeType(data.type));
+      }
+    } catch (err) {
+      setLoading(false);
+      if (err?.response?.status === 401) {
+        Alert.alert('Alert', 'Invalid email or password');
+        return;
+      }
+
+      const {errors} = err?.response?.data;
+
+      if (errors) {
+        Alert.alert('Alert', JSON.stringify(errors));
+      }
+    }
   };
+
+  useEffect(() => {
+    const subscribe = BackHandler.addEventListener('hardwareBackPress', () => {
+      Alert.alert('Alert', 'Exit app?', [
+        {
+          text: 'No',
+        },
+        {
+          text: 'Yes',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ]);
+      return true;
+    });
+
+    return () => subscribe.remove();
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
@@ -57,8 +111,18 @@ const LoginScreen = ({navigation}) => {
           secureTextEntry={true}
         />
         <View style={styles.button}>
-          <Button title="Login" color={themeColor} onPress={handleLogin} />
+          <Button
+            title="Login"
+            color={themeColor}
+            onPress={handleLogin}
+            disabled={loading}
+          />
         </View>
+        <Pressable
+          style={styles.footerText}
+          onPress={() => navigation.navigate('SignUpScreen')}>
+          <Text>Register now</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -110,6 +174,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     padding: 10,
+  },
+  footerText: {
+    marginVertical: 10,
+    alignSelf: 'center',
   },
 });
 

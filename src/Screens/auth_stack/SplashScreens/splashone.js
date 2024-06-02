@@ -1,12 +1,17 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {MMKV} from 'react-native-mmkv';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch} from 'react-redux';
+import {toggleSplash} from '../../../store/slices/auth.slice';
+
+const storage = new MMKV();
 
 const Splashone = ({navigation}) => {
+  const dispatch = useDispatch();
+
   const btnactin = () => {
-    console.log('pressed');
-    navigation.navigate('Login');
+    dispatch(toggleSplash());
   };
 
   return (
@@ -26,7 +31,7 @@ const Splashone = ({navigation}) => {
           <Text style={Styles.buttonText}>Get Started</Text>
           <TouchableOpacity onPress={btnactin}>
             <View style={Styles.button}>
-              <Icon name="add-card" size={24} color="red" />
+              <Icon name="chevron-right" size={24} color="white" />
             </View>
           </TouchableOpacity>
         </View>

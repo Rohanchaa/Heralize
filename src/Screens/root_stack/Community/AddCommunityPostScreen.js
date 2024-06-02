@@ -9,8 +9,11 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import {addPost} from '../../../services/post_service';
 
-const CreatePost = ({navigation}) => {
+const AddCommunityPostScreen = ({navigation, route}) => {
+  const {id} = route.params;
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -24,7 +27,18 @@ const CreatePost = ({navigation}) => {
       return;
     }
 
-    navigation.navigate('SelectCommunity', {title, description});
+    addPost({title, description, community_id: id})
+      .then(res => {
+        const {success} = res.data;
+
+        if (success) {
+          Alert.alert('Alert', 'Post has been added');
+          navigation.goBack();
+        }
+      })
+      .catch(error => {
+        console.log('error', error?.response?.data);
+      });
   };
 
   return (
@@ -51,7 +65,7 @@ const CreatePost = ({navigation}) => {
           onChangeText={setDescription}
         />
       </ScrollView>
-      <Button title="Next" onPress={() => handleNext()} color="#74C042" />
+      <Button title="Submit" onPress={() => handleNext()} color="#74C042" />
     </>
   );
 };
@@ -85,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreatePost;
+export default AddCommunityPostScreen;
